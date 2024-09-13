@@ -1,5 +1,6 @@
 package com.eureka.liveAndMove.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,15 @@ public class UserService {
 		return response.isEmpty()? null: response.get();
 	}
 	
+	public UserDto addUser(UserDto dto) {
+		if( getLogin(dto) != null) {
+			return null;
+		}
+		return userRepo.save(dto);
+	}
+	
+	public List<UserDto> listUser() {
+		return userRepo.findAll();
+	}
 	
 }
