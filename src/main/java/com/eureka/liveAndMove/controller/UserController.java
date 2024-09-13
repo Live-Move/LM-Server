@@ -21,11 +21,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	// Spring 연결 확인 
 	@GetMapping("/api/connection")
 	public String checkConnection() {
 		return "[ connectecd ] user controller";
 	}
 	
+	// 로그인
 	@PostMapping("/api/user/login")
 	public HashMap<String, Object> userLogin(
 			@RequestBody UserDto user, HttpSession session
@@ -67,6 +69,25 @@ public class UserController {
 		response.setPassword(null);		// 비밀 번호를 가리기 위함 
 		result.put("data", response); 	// 로그인 성공시 사용자 정보 넘겨줌		
 		
+		return result;
+	}
+	
+	
+	// 회원 가입 
+	@PostMapping("/api/user/signup")
+	public HashMap<String, Object> addUser(@RequestBody UserDto user){
+		System.out.println("addUser : "+user);
+		HashMap<String, Object> result=new HashMap<>();
+		
+		// 회원가입 실패 => 이미 존재하는 아이디 
+		if ( userService.addUser(user) == null ) {
+			result.put("code", "fail");
+			result.put("data", null);
+		}
+		else {
+			result.put("code", "ok");
+			result.put("data", user);			
+		}
 		return result;
 	}
 	
