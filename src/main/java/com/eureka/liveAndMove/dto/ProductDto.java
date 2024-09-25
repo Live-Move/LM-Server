@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name="product")
 public class ProductDto {
 	@Id
-	private int product_id;
-	private String product_name, sub_product_name, brand, description, detail;
+	private String product_id;
+	private String product_name, category, brand, description, detail;
 	private int price;
 }
