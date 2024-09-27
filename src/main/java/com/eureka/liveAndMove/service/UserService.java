@@ -15,13 +15,28 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepo;
 
-	public UserDto getLogin(UserDto user) {
+	public UserDto getUserInfoById(UserDto user) {
 		Optional<UserDto> response = userRepo.findByLoginId(user.getLoginId());
+		System.out.println("[ getUserInfoById ] >> "+response);
 		return response.isEmpty()? null: response.get();
 	}
 	
+	public UserDto getUserInfoByPersonal(UserDto user) {
+		Optional<UserDto> response = userRepo.findByAddress(user.getAddress());
+		System.out.println("[ findByAddress ] >> "+response);
+		if (!response.isEmpty()) {
+			System.out.println("[** not empty chk **]");
+			UserDto chk_info = response.get();
+			if (chk_info.getName().equals(user.getName())
+					&& chk_info.getPhone().equals(user.getPhone())) {
+				return chk_info;
+			}
+		}
+		return null;
+	}
+	
 	public UserDto addUser(UserDto dto) {
-		if( getLogin(dto) != null) {
+		if( getUserInfoById(dto) != null) {
 			return null;
 		}
 		return userRepo.save(dto);

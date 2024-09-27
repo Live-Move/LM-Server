@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<UserDto, Integer>{
 
 	Optional<UserDto> findByLoginId(String loginId);
 
+	Optional<UserDto> findByAddress(String address);
+
 }

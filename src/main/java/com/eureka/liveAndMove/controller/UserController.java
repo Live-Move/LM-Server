@@ -37,7 +37,7 @@ public class UserController {
 		System.out.println("=== [ 로그인 실행 ] ===");
 		System.out.println(user);
 		
-		UserDto response = userService.getLogin(user);
+		UserDto response = userService.getUserInfoById(user);
 		System.out.println("=== [ SQL 결과 ] ===");
 		System.out.println(response);
 		
@@ -63,7 +63,7 @@ public class UserController {
 			session.setAttribute("user", response);
 
 			System.out.println("=== [ HTTP 세션 ] ===");
-			System.out.println(session);
+			System.out.println(session.getAttribute("user"));
 		}
 		
 		response.setPassword(null);		// 비밀 번호를 가리기 위함 
@@ -91,4 +91,35 @@ public class UserController {
 		return result;
 	}
 	
+	
+	@PostMapping("/api/user/findInfo")
+	public HashMap<String, Object> findInfo(@RequestBody UserDto user) {
+		HashMap<String, Object> result = new HashMap<>();
+		System.out.println("\n[ findInfo ] >> chk test code");
+		System.out.println(user);
+		if (user.getLoginId() == null) {
+			UserDto response = userService.getUserInfoByPersonal(user);
+			System.out.println("[ response ] >> "+response);
+			if (response == null) 
+				result.put("code", "fail");
+			else {
+				result.put("type", "ID");
+				result.put("code", "ok");
+				result.put("data", response.getLoginId());
+			}
+		}
+		else {
+			UserDto response = userService.getUserInfoById(user);
+			result.put("code", "fail");
+			
+			if (response != null) {
+				if (response.getName().equals(user.getName())) {
+					result.put("type", "PW");
+					result.put("code", "ok");
+					result.put("data", response.getPassword());
+				}
+			}
+		}
+		return result;
+	}
 }
