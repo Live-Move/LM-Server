@@ -4,7 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-src/main/resources/application.properties
 
 ### STS ###
 .apt_generated
@@ -17,6 +16,8 @@ src/main/resources/application.properties
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+src/main/java/com/eureka/liveAndMove/service/ProductServiceTest.java
+src/main/java/com/eureka/liveAndMove/controller/ProductControllerTest.java
 
 ### IntelliJ IDEA ###
 .idea
